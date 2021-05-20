@@ -1,0 +1,22 @@
+#!/bin/sh
+#BATCH -A iit111 # specify the project
+#SBATCH --job-name="model-batch" # job name
+#SBATCH --output="keras.%j.%N.out" # program execution result
+#SBATCH --partition=gpu-shared # The GPU nodes can be accessed via either the "gpu" or the "gpu-shared" partitions.
+#SBATCH --nodes=1 # node number
+#SBATCH --ntasks-per-node=6 # cores number in each node
+#SBATCH --gres=gpu:1 # first available gpu node (either type)
+#SBATCH -t 10:00:00 # (xx(hour):xx(minute):xx(second)) job running time
+#Run the job
+module load singularity # load the singularity module
+singularity exec --nv /share/apps/gpu/singularity/images/keras/keras-v2.2.4-tensorflow-v1.12-gpu-20190214.simg python3 ./src/train_model.py g kodak
+singularity exec --nv /share/apps/gpu/singularity/images/keras/keras-v2.2.4-tensorflow-v1.12-gpu-20190214.simg python3 ./src/train_model.py g bsds300
+
+singularity exec --nv /share/apps/gpu/singularity/images/keras/keras-v2.2.4-tensorflow-v1.12-gpu-20190214.simg python3 ./src/train_model.py p kodak
+singularity exec --nv /share/apps/gpu/singularity/images/keras/keras-v2.2.4-tensorflow-v1.12-gpu-20190214.simg python3 ./src/train_model.py p bsds300
+
+singularity exec --nv /share/apps/gpu/singularity/images/keras/keras-v2.2.4-tensorflow-v1.12-gpu-20190214.simg python3 ./src/train_model.py b kodak
+singularity exec --nv /share/apps/gpu/singularity/images/keras/keras-v2.2.4-tensorflow-v1.12-gpu-20190214.simg python3 ./src/train_model.py b bsds300
+
+singularity exec --nv /share/apps/gpu/singularity/images/keras/keras-v2.2.4-tensorflow-v1.12-gpu-20190214.simg python3 ./src/train_model.py t kodak
+singularity exec --nv /share/apps/gpu/singularity/images/keras/keras-v2.2.4-tensorflow-v1.12-gpu-20190214.simg python3 ./src/train_model.py t bsds300
